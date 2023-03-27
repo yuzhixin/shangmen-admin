@@ -1,3 +1,6 @@
 from django.contrib import admin
+from models import HomeBar, ShopInfo
 
-# Register your models here.
+
+admin.site.register(HomeBar)
+admin.site.register(ShopInfo)
