@@ -11,7 +11,7 @@ def user_directory_path(instance, filename):
 
 class HomeBar(models.Model):
     id = models.AutoField(primary_key=True)
-    src= models.ImageField('照片', upload_to = user_directory_path, blank = True, null = True)
+    src= models.ImageField('照片', upload_to = user_directory_path, blank = False, null = False)
 
     def __str__(self):
         return str(self.sequence) + ':' + self.name
