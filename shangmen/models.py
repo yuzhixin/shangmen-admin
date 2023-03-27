@@ -11,7 +11,13 @@ def user_directory_path(instance, filename):
 
 class HomeBar(models.Model):
     id = models.AutoField(primary_key=True)
-    src= models.ImageField('照片', upload_to = user_directory_path, blank = False, null = False)
+    src = models.ImageField('照片', upload_to = user_directory_path, blank=False, null=False)
 
     def __str__(self):
-        return str(self.sequence) + ':' + self.name
+        return self.src
+
+    def src_url(self):
+        if self.src and hasattr(self.src, 'url'):
+            return self.src.url
+        else:
+            return '/media/default/user.jpg'
