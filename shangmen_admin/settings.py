@@ -128,4 +128,5 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-HOSTS = "https://shangmen.kekouen.cn"
+HOSTS = "http://127.0.0.1:8000/"
+MEDIA_HOSTS = "http://127.0.0.1:8000/media/"

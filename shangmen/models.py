@@ -56,3 +56,6 @@ class Shangpin(models.Model):
 
     class Meta:
         verbose_name_plural = '商品详情'
+
+    def get_tag_name(self):
+        return self.get_tag_display()

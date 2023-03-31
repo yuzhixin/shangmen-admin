@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from shangmen.models import HomeBar, ShopInfo, Shangpin
 from django.http import JsonResponse
+from shangmen_admin.settings import MEDIA_HOSTS
 
 
 def home_info(request):
@@ -11,7 +12,7 @@ def home_info(request):
     ret = []
     for home in homeBar:
         ret.append({
-            "src": home.src.name,
+            "src": MEDIA_HOSTS + home.src.name,
             "content": "",
         })
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
@@ -29,16 +30,22 @@ def shop_info(request):
 
 
 def shangpin_list(request):
-    shangpins = Shangpin.objects.all()
+    query = request.GET.get("query", "")
+    if query:
+        shangpins = Shangpin.objects.filter(title__icontains=query)
+    else:
+        shangpins = Shangpin.objects.all()
     ret = []
     for shangpin in shangpins:
         ret.append({
             "id": shangpin.id,
-            "src": shangpin.src.name,
+            "src": MEDIA_HOSTS + shangpin.src.name,
             "title": shangpin.title,
             "view_price": shangpin.view_price,
             "real_price": shangpin.real_price,
-            "tag": shangpin.tag,
+            "tag": shangpin.get_tag_name(),
             "sumery": shangpin.sumery,
         })
+        print(shangpin.tag)
+        print(dir(shangpin.tag))
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
