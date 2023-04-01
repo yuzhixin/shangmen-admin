@@ -32,9 +32,10 @@ def shop_info(request):
 def shangpin_list(request):
     query = request.GET.get("query", "")
     if query:
-        shangpins = Shangpin.objects.filter(title__icontains=query)
+        shangpins = Shangpin.objects.filter(
+            isPublish=1).filter(title__icontains=query)
     else:
-        shangpins = Shangpin.objects.all()
+        shangpins = Shangpin.objects.filter(isPublish=1)
     ret = []
     for shangpin in shangpins:
         ret.append({
