@@ -47,6 +47,4 @@ def shangpin_list(request):
             "tag": shangpin.get_tag_name(),
             "sumery": shangpin.sumery,
         })
-        print(shangpin.tag)
-        print(dir(shangpin.tag))
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
