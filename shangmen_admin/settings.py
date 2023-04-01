@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-**p5ty8(3crc5tiwmy9hxfn45@fu6m*s3+&1)qu7bx-8%=ypk*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['shangmen.kekouen.cn']
 
 
 # Application definition
@@ -128,5 +128,5 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-HOSTS = "http://127.0.0.1:8000/"
-MEDIA_HOSTS = "http://127.0.0.1:8000/media/"
+HOSTS = "https://shangmen.kekouen.cn/"
+MEDIA_HOSTS = "https://shangmen.kekouen.cn/media/"
