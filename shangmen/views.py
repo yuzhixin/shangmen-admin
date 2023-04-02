@@ -62,17 +62,27 @@ def code_to_session(request):
 
 def get_current_user(request):
     openid = request.GET.get("openid", "")
-    userInfo = unquote(request.GET.get("userInfo", ""))
     if openid == "":
         return JsonResponse({'code': -1, 'ret': "获取用户异常", 'msg': ''})
     loginUser = LoginUser.objects.filter(openid=openid).first()
     if not loginUser:
-        userData = json.loads(userInfo)
-        loginUser = LoginUser.objects.create(openid=openid, nickName=userData.get(
-            "nickName", ""), avatarUrl=userData.get("avatarUrl", ""))
+        loginUser = LoginUser.objects.create(openid=openid)
     ret = {
         "openid": loginUser.openid,
         "nickName": loginUser.nickName,
         "avatarUrl": loginUser.avatarUrl,
     }
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
+
+
+def update_current_user(request):
+    userInfo = unquote(request.GET.get("userInfo", ""))
+    if userInfo.get("openid", "") == "":
+        return JsonResponse({'code': -1, 'ret': "获取用户异常", 'msg': ''})
+    loginUser = LoginUser.objects.filter(
+        openid=userInfo.get("openid", "")).first()
+    if not loginUser:
+        return JsonResponse({'code': -1, 'ret': "获取用户异常", 'msg': ''})
+    loginUser.nickName = userInfo.get("nickName", "")
+    loginUser.avatarUrl = userInfo.get("avatarUrl", "")
+    return JsonResponse({'code': 0, 'ret': {}, 'msg': ''})
