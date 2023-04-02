@@ -49,7 +49,7 @@ def shangpin_list(request):
 
 
 def code_to_session(request):
-    jscode = request.GET.get("query", "")
+    jscode = request.GET.get("code", "")
     url = "https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code".format(AppID, AppSecret, jscode)
     data = requests.get(url)
     return JsonResponse({'code': 0, 'ret': data.json(), 'msg': ''})
