@@ -1,9 +1,24 @@
 
-import requests, json
-from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser
-from django.http import JsonResponse
-from shangmen_admin.settings import MEDIA_HOSTS, AppID, AppSecret
 from django.views.decorators.csrf import csrf_exempt
+from shangmen_admin.settings import MEDIA_HOSTS, AppID, AppSecret
+from django.http import JsonResponse
+from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser
+import requests
+import json
+
+
+def check_login(fn):
+    def wrapper(request):
+        openid = request.META.get("HTTP_OPENID")
+        if openid:
+            loginUser = LoginUser.objects.filter(openid=openid).first()
+            if not loginUser:
+                return JsonResponse({'code': 401, 'msg': '用户未登录'})
+            request.session['user'] = loginUser
+            return fn(request)
+        else:
+            return JsonResponse({'code': 401, 'msg': '用户未登录'})
+    return wrapper
 
 
 def home_info(request):
@@ -59,7 +74,7 @@ def code_to_session(request):
     return JsonResponse({'code': 0, 'ret': data.json(), 'msg': ''})
 
 
-def get_current_user(request):
+def login(request):
     openid = request.GET.get("openid", "")
     if openid == "":
         return JsonResponse({'code': -1, 'ret': "获取用户异常", 'msg': ''})
@@ -87,3 +102,14 @@ def update_current_user(request):
     loginUser.avatarUrl = userInfo.get("avatarUrl", "")
     loginUser.save()
     return JsonResponse({'code': 0, 'ret': {}, 'msg': ''})
+
+
+@check_login
+def current_user(request):
+    loginUser = request.session['user']
+    ret = {
+        "openid": loginUser.openid,
+        "nickName": loginUser.nickName,
+        "avatarUrl": loginUser.avatarUrl,
+    }
+    return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
