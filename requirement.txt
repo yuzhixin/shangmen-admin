@@ -2,3 +2,4 @@ django
 django-ckeditor
 Pillow
 wechatpy
+requests

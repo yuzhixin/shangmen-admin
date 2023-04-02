@@ -1,10 +1,8 @@
-from django.shortcuts import render
 
-# Create your views here.
-
+import requests
 from shangmen.models import HomeBar, ShopInfo, Shangpin
 from django.http import JsonResponse
-from shangmen_admin.settings import MEDIA_HOSTS
+from shangmen_admin.settings import MEDIA_HOSTS, AppID, AppSecret
 
 
 def home_info(request):
@@ -48,3 +46,10 @@ def shangpin_list(request):
             "sumery": shangpin.sumery,
         })
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
+
+
+def code_to_session(request):
+    jscode = request.GET.get("query", "")
+    url = "https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code".format(AppID, AppSecret, jscode)
+    data = requests.get(url)
+    return JsonResponse({'code': 0, 'ret': data.json(), 'msg': ''})
