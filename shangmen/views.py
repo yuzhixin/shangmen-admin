@@ -76,7 +76,8 @@ def get_current_user(request):
 
 
 def update_current_user(request):
-    userInfo = unquote(request.GET.get("userInfo", ""))
+    print(request.body)
+    userInfo = request.body
     if userInfo.get("openid", "") == "":
         return JsonResponse({'code': -1, 'ret': "获取用户异常", 'msg': ''})
     loginUser = LoginUser.objects.filter(
