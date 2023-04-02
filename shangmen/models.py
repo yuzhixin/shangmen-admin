@@ -9,7 +9,7 @@ class LoginUser(models.Model):
     openid = models.CharField(
         max_length=128, default="", verbose_name="openid")
     nickName = models.CharField(max_length=128, default="", verbose_name="昵称")
-    avatarUrl = models.CharField(max_length=128, default="", verbose_name="头像")
+    avatarUrl = models.CharField(max_length=512, default="", verbose_name="头像")
 
     class Meta:
         indexes = [models.Index(fields=['openid'])]
