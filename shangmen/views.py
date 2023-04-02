@@ -1,10 +1,10 @@
 
 import requests
-import json
 from urllib.parse import unquote
 from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser
 from django.http import JsonResponse
 from shangmen_admin.settings import MEDIA_HOSTS, AppID, AppSecret
+from django.views.decorators.csrf import csrf_exempt
 
 
 def home_info(request):
@@ -75,6 +75,7 @@ def get_current_user(request):
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
 
 
+@csrf_exempt
 def update_current_user(request):
     print(request.body)
     userInfo = request.body
