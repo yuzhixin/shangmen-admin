@@ -77,14 +77,16 @@ def get_current_user(request):
 
 @csrf_exempt
 def update_current_user(request):
-    print(request.body)
     userInfo = request.POST
+    print(userInfo)
+    print(userInfo.get("openid"))
     if userInfo.get("openid", "") == "":
-        return JsonResponse({'code': -1, 'ret': "获取用户异常", 'msg': ''})
+        return JsonResponse({'code': -1, 'ret': "获取用户异常", 'msg': '获取用户异常'})
     loginUser = LoginUser.objects.filter(
         openid=userInfo.get("openid", "")).first()
     if not loginUser:
-        return JsonResponse({'code': -1, 'ret': "获取用户异常", 'msg': ''})
+        return JsonResponse({'code': -1, 'ret': "获取用户异常", 'msg': '获取用户异常'})
     loginUser.nickName = userInfo.get("nickName", "")
     loginUser.avatarUrl = userInfo.get("avatarUrl", "")
+    loginUser.save()
     return JsonResponse({'code': 0, 'ret': {}, 'msg': ''})
