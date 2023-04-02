@@ -1,6 +1,8 @@
 
 import requests
-from shangmen.models import HomeBar, ShopInfo, Shangpin
+import json
+from urllib.parse import unquote
+from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser
 from django.http import JsonResponse
 from shangmen_admin.settings import MEDIA_HOSTS, AppID, AppSecret
 
@@ -50,6 +52,27 @@ def shangpin_list(request):
 
 def code_to_session(request):
     jscode = request.GET.get("code", "")
-    url = "https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code".format(AppID, AppSecret, jscode)
+    if jscode == "":
+        return JsonResponse({'code': -1, 'ret': "获取code", 'msg': ''})
+    url = "https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code".format(
+        AppID, AppSecret, jscode)
     data = requests.get(url)
     return JsonResponse({'code': 0, 'ret': data.json(), 'msg': ''})
+
+
+def get_current_user(request):
+    openid = request.GET.get("openid", "")
+    userInfo = unquote(request.GET.get("userInfo", ""))
+    if openid == "":
+        return JsonResponse({'code': -1, 'ret': "获取用户异常", 'msg': ''})
+    loginUser = LoginUser.objects.filter(openid=openid).first()
+    if not loginUser:
+        userData = json.loads(userInfo)
+        loginUser = LoginUser.objects.create(openid=openid, nickName=userData.get(
+            "nickName", ""), avatarUrl=userData.get("avatarUrl", ""))
+    ret = {
+        "openid": loginUser.openid,
+        "nickName": loginUser.nickName,
+        "avatarUrl": loginUser.avatarUrl,
+    }
+    return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})

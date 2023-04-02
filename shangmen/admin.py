@@ -10,6 +10,7 @@ class LoginUserAddressAdmin(admin.ModelAdmin):
 
     ordering = ('-id',)
 
+
 class HomeBarAdmin(admin.ModelAdmin):
 
     # 列表页，列表顶部显示的字段名称
@@ -47,8 +48,14 @@ class ShangpinAdmin(admin.ModelAdmin):
     ordering = ('-id',)
 
 
+class LoginUserAdmin(admin.ModelAdmin):
+
+    # 列表页，列表顶部显示的字段名称
+    list_display = ('openid', 'nickName', 'avatarUrl')
+
+
 admin.site.register(HomeBar, HomeBarAdmin)
 admin.site.register(ShopInfo, ShopInfoAdmin)
 admin.site.register(Shangpin, ShangpinAdmin)
-admin.site.register(LoginUser)
+admin.site.register(LoginUser, LoginUserAdmin)
 admin.site.register(LoginUserAddress, LoginUserAddressAdmin)

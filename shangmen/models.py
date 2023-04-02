@@ -6,8 +6,12 @@ from ckeditor.fields import RichTextField
 
 class LoginUser(models.Model):
     id = models.AutoField(primary_key=True)
+    openid = models.CharField(max_length=128, verbose_name="openid")
+    nickName = models.CharField(max_length=128, verbose_name="昵称")
+    avatarUrl = models.CharField(max_length=128, verbose_name="头像")
 
     class Meta:
+        indexes = [models.Index(fields=['openid'])]
         verbose_name_plural = '注册用户'
 
 
