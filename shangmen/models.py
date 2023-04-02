@@ -13,6 +13,7 @@ class LoginUser(models.Model):
 
 class LoginUserAddress(models.Model):
     id = models.AutoField(primary_key=True)
+    loginUser = models.IntegerField(default=0, verbose_name="登录用户")
     name = models.CharField(max_length=128, verbose_name="姓名")
     mobile = models.CharField(max_length=128, verbose_name="手机号")
     address = models.CharField(max_length=512, verbose_name="地址")
