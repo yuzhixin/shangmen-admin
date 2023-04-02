@@ -1,6 +1,5 @@
 
-import requests
-from urllib.parse import unquote
+import requests, json
 from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser
 from django.http import JsonResponse
 from shangmen_admin.settings import MEDIA_HOSTS, AppID, AppSecret
@@ -77,9 +76,7 @@ def get_current_user(request):
 
 @csrf_exempt
 def update_current_user(request):
-    userInfo = request.POST
-    print(userInfo)
-    print(userInfo.get("openid"))
+    userInfo = json.loads(request.body)
     if userInfo.get("openid", "") == "":
         return JsonResponse({'code': -1, 'ret': "获取用户异常", 'msg': '获取用户异常'})
     loginUser = LoginUser.objects.filter(
