@@ -1,6 +1,14 @@
 from django.contrib import admin
-from .models import HomeBar, ShopInfo, Shangpin
+from .models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAddress
 
+
+class LoginUserAddressAdmin(admin.ModelAdmin):
+
+    list_display = ('id', 'name', 'mobile', 'address')
+
+    search_fields = ('id', 'name', 'mobile', 'address')
+
+    ordering = ('-id',)
 
 class HomeBarAdmin(admin.ModelAdmin):
 
@@ -42,3 +50,5 @@ class ShangpinAdmin(admin.ModelAdmin):
 admin.site.register(HomeBar, HomeBarAdmin)
 admin.site.register(ShopInfo, ShopInfoAdmin)
 admin.site.register(Shangpin, ShangpinAdmin)
+admin.site.register(LoginUser)
+admin.site.register(LoginUserAddress, LoginUserAddressAdmin)

@@ -4,6 +4,24 @@ from django.db import models
 from ckeditor.fields import RichTextField
 
 
+class LoginUser(models.Model):
+    id = models.AutoField(primary_key=True)
+
+    class Meta:
+        verbose_name_plural = '注册用户'
+
+
+class LoginUserAddress(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=128, verbose_name="姓名")
+    mobile = models.CharField(max_length=128, verbose_name="手机号")
+    address = models.CharField(max_length=512, verbose_name="地址")
+    isDefault = models.BooleanField(default=False, verbose_name="是否默认地址")
+
+    class Meta:
+        verbose_name_plural = '用户地址'
+
+
 class HomeBar(models.Model):
     id = models.AutoField(primary_key=True)
     src = models.ImageField(verbose_name='首页轮播图',
