@@ -10,4 +10,9 @@ urlpatterns = [
     path('current_user/', views.current_user, name='current_user'),
     path('update_current_user/', views.update_current_user,
          name='update_current_user'),
+    path('address_list/', views.address_list, name='address_list'),
+    path('default_address/', views.default_address, name='default_address'),
+    path('set_default_address/', views.set_default_address,
+         name='set_default_address'),
+    path('add_address/', views.add_address, name='add_address'),
 ]
