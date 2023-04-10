@@ -136,13 +136,16 @@ def default_address(request):
     loginUser = request.session['user']
     addres = LoginUserAddress.objects.filter(
         loginUser=loginUser.id).filter(isDefault=True).first()
-    ret = {
-        "id": addres.id,
-        "name": addres.name,
-        "mobile": addres.mobile,
-        "address": addres.address,
-        "isDefault": addres.isDefault,
-    }
+    if addres:
+        ret = {
+            "id": addres.id,
+            "name": addres.name,
+            "mobile": addres.mobile,
+            "address": addres.address,
+            "isDefault": addres.isDefault,
+        }
+    else:
+        ret = {}
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
 
 
