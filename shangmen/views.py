@@ -146,15 +146,30 @@ def default_address(request):
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
 
 
+@check_login
+def set_default_address(request):
+    loginUser = request.session['user']
+    addressId = request.GET.get("addressId", "")
+    LoginUserAddress.objects.filter(
+        loginUser=loginUser.id).update(isDefault=False)
+    LoginUserAddress.objects.filter(loginUser=loginUser.id).filter(
+        id=addressId).update(isDefault=True)
+    return JsonResponse({'code': 0, 'ret': {}, 'msg': ''})
+
 
 @check_login
 def add_address(request):
     loginUser = request.session['user']
-    addres = LoginUserAddress(
-        loginUser = loginUser.id,
-        name = 
+    data = json.loads(request.body)
+    LoginUserAddress.objects.filter(
+        loginUser=loginUser.id).update(isDefault=False)
+    addres = LoginUserAddress.objects.create(
+        loginUser=loginUser.id,
+        name=data.get('name'),
+        mobile=data.get('mobile'),
+        address=data.get('address'),
+        isDefault=True,
     )
-    addres.save()
     ret = {
         "id": addres.id,
         "name": addres.name,
