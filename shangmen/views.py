@@ -2,7 +2,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from shangmen_admin.settings import MEDIA_HOSTS, AppID, AppSecret
 from django.http import JsonResponse
-from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser
+from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAddress
 import requests
 import json
 
@@ -111,5 +111,55 @@ def current_user(request):
         "openid": loginUser.openid,
         "nickName": loginUser.nickName,
         "avatarUrl": loginUser.avatarUrl,
+    }
+    return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
+
+
+@check_login
+def address_list(request):
+    loginUser = request.session['user']
+    addresList = LoginUserAddress.objects.filter(loginUser=loginUser.id)
+    ret = []
+    for addres in addresList:
+        ret.append({
+            "id": addres.id,
+            "name": addres.name,
+            "mobile": addres.mobile,
+            "address": addres.address,
+            "isDefault": addres.isDefault,
+        })
+    return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
+
+
+@check_login
+def default_address(request):
+    loginUser = request.session['user']
+    addres = LoginUserAddress.objects.filter(
+        loginUser=loginUser.id).filter(isDefault=True).first()
+    ret = {
+        "id": addres.id,
+        "name": addres.name,
+        "mobile": addres.mobile,
+        "address": addres.address,
+        "isDefault": addres.isDefault,
+    }
+    return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
+
+
+
+@check_login
+def add_address(request):
+    loginUser = request.session['user']
+    addres = LoginUserAddress(
+        loginUser = loginUser.id,
+        name = 
+    )
+    addres.save()
+    ret = {
+        "id": addres.id,
+        "name": addres.name,
+        "mobile": addres.mobile,
+        "address": addres.address,
+        "isDefault": addres.isDefault,
     }
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
