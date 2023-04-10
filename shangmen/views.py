@@ -181,3 +181,17 @@ def add_address(request):
         "isDefault": addres.isDefault,
     }
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
+
+
+@check_login
+def update_address(request):
+    loginUser = request.session['user']
+    data = json.loads(request.body)
+    LoginUserAddress.objects.filter(loginUser=loginUser.id).filter(
+        id=data.id).update(
+        isDefault=data.isDefault,
+        name=data.name,
+        mobile=data.mobile,
+        address=data.address
+    )
+    return JsonResponse({'code': 0, 'ret': {}, 'msg': ''})

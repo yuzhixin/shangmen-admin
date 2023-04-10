@@ -15,4 +15,5 @@ urlpatterns = [
     path('set_default_address/', views.set_default_address,
          name='set_default_address'),
     path('add_address/', views.add_address, name='add_address'),
+    path('update_address/', views.update_address, name='update_address'),
 ]
