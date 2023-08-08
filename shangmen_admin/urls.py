@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from shangmen.views import yanzheng
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('shangmen.urls')),
+    path('2h36WnoaD7.txt', yanzheng, name='yanzheng'),
 ]

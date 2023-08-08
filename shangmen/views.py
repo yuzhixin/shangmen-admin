@@ -1,11 +1,13 @@
 
 from django.views.decorators.csrf import csrf_exempt
 from shangmen_admin.settings import MEDIA_HOSTS, AppID, AppSecret
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAddress
 import requests
 import json
 
+def yanzheng(request):
+    return HttpResponse("570914c873eaf12ffca0b0e5c5222d14")
 
 def check_login(fn):
     def wrapper(request):
