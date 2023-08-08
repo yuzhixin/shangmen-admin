@@ -135,5 +135,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 HOSTS = "https://shangmen.kekouen.cn/"
 MEDIA_HOSTS = "https://shangmen.kekouen.cn/media/"
 
-AppID = "wxb71c15c9b4af615a"
-AppSecret = "a36ac312984a8a4e064ac3591da7d4e2"
+AppID = "wxa798ff8aefec3f3a"
+AppSecret = "da96d894a1c0a9195960f2083ac363a1"
