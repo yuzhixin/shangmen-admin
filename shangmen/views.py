@@ -85,8 +85,8 @@ def login(request):
         loginUser = LoginUser.objects.create(openid=openid)
     ret = {
         "openid": loginUser.openid,
-        "nickName": loginUser.nickName,
-        "avatarUrl": loginUser.avatarUrl,
+        "nickName": loginUser.openid,
+        # "avatarUrl": loginUser.avatarUrl,
     }
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
 
