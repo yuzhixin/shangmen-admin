@@ -135,9 +135,11 @@ def address_list(request):
 
 @check_login
 def default_address(request):
-    loginUser = request.session['user']
+    user = request.session['user']
     addres = LoginUserAddress.objects.filter(
-        loginUser=loginUser.id).filter(isDefault=True).first()
+        loginUser=user.id).filter(isDefault=True).first()
+    print(addres)
+    print(user)
     if addres:
         ret = {
             "id": addres.id,
@@ -148,6 +150,7 @@ def default_address(request):
         }
     else:
         ret = {}
+    print(ret)
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
 
 
