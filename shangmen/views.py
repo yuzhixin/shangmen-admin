@@ -16,7 +16,7 @@ def check_login(fn):
             loginUser = LoginUser.objects.filter(openid=openid).first()
             if not loginUser:
                 return JsonResponse({'code': 401, 'msg': '用户未登录'})
-            request.session['user'] = loginUser.id
+            request.session['user'] = str(loginUser.id)
             return fn(request)
         else:
             return JsonResponse({'code': 401, 'msg': '用户未登录'})
