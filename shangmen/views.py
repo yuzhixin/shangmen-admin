@@ -163,30 +163,31 @@ def set_default_address(request):
 
 
 @check_login
+@csrf_exempt
 def add_address(request):
-    if request.method == "POST":
-        loginUser = LoginUser.objects.filter(id=request.session['user']).first()
-        data = json.loads(request.body)
-        LoginUserAddress.objects.filter(
-            loginUser=loginUser.id).update(isDefault=False)
-        addres = LoginUserAddress.objects.create(
-            loginUser=loginUser.id,
-            name=data.get('name'),
-            mobile=data.get('mobile'),
-            address=data.get('address'),
-            isDefault=True,
-        )
-        ret = {
-            "id": addres.id,
-            "name": addres.name,
-            "mobile": addres.mobile,
-            "address": addres.address,
-            "isDefault": addres.isDefault,
-        }
-        return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
+    loginUser = LoginUser.objects.filter(id=request.session['user']).first()
+    data = json.loads(request.body)
+    LoginUserAddress.objects.filter(
+        loginUser=loginUser.id).update(isDefault=False)
+    addres = LoginUserAddress.objects.create(
+        loginUser=loginUser.id,
+        name=data.get('name'),
+        mobile=data.get('mobile'),
+        address=data.get('address'),
+        isDefault=True,
+    )
+    ret = {
+        "id": addres.id,
+        "name": addres.name,
+        "mobile": addres.mobile,
+        "address": addres.address,
+        "isDefault": addres.isDefault,
+    }
+    return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
 
 
 @check_login
+@csrf_exempt
 def update_address(request):
     loginUser = LoginUser.objects.filter(id=request.session['user']).first()
     data = json.loads(request.body)
