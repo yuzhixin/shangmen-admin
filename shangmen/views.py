@@ -6,8 +6,10 @@ from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAdd
 import requests
 import json
 
+
 def yanzheng(request):
     return HttpResponse("570914c873eaf12ffca0b0e5c5222d14")
+
 
 def check_login(fn):
     def wrapper(request):
@@ -162,8 +164,8 @@ def set_default_address(request):
     return JsonResponse({'code': 0, 'ret': {}, 'msg': ''})
 
 
-@check_login
 @csrf_exempt
+@check_login
 def add_address(request):
     loginUser = LoginUser.objects.filter(id=request.session['user']).first()
     data = json.loads(request.body)
@@ -186,8 +188,8 @@ def add_address(request):
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
 
 
-@check_login
 @csrf_exempt
+@check_login
 def update_address(request):
     loginUser = LoginUser.objects.filter(id=request.session['user']).first()
     data = json.loads(request.body)
