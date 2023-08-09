@@ -151,6 +151,7 @@ def default_address(request):
     else:
         ret = {}
     print(ret)
+    print("------")
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
 
 
