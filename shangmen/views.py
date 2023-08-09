@@ -108,7 +108,7 @@ def update_current_user(request):
 
 @check_login
 def current_user(request):
-    loginUser = LoginUser.objects.get(request.session['user'])
+    loginUser = LoginUser.objects.filter(id=request.session['user']).first()
     ret = {
         "openid": loginUser.openid,
         "nickName": loginUser.nickName,
@@ -119,7 +119,7 @@ def current_user(request):
 
 @check_login
 def address_list(request):
-    loginUser = LoginUser.objects.get(request.session['user'])
+    loginUser = LoginUser.objects.filter(id=request.session['user']).first()
     addresList = LoginUserAddress.objects.filter(loginUser=loginUser.id)
     ret = []
     for addres in addresList:
@@ -135,7 +135,7 @@ def address_list(request):
 
 @check_login
 def default_address(request):
-    loginUser = LoginUser.objects.get(request.session['user'])
+    loginUser = LoginUser.objects.filter(id=request.session['user']).first()
     addres = LoginUserAddress.objects.filter(
         loginUser=loginUser.id).filter(isDefault=True).first()
     if addres:
@@ -153,7 +153,7 @@ def default_address(request):
 
 @check_login
 def set_default_address(request):
-    loginUser = LoginUser.objects.get(request.session['user'])
+    loginUser = LoginUser.objects.filter(id=request.session['user']).first()
     addressId = request.GET.get("addressId", "")
     LoginUserAddress.objects.filter(
         loginUser=loginUser.id).update(isDefault=False)
@@ -164,7 +164,7 @@ def set_default_address(request):
 
 @check_login
 def add_address(request):
-    loginUser = LoginUser.objects.get(request.session['user'])
+    loginUser = LoginUser.objects.filter(id=request.session['user']).first()
     data = json.loads(request.body)
     LoginUserAddress.objects.filter(
         loginUser=loginUser.id).update(isDefault=False)
@@ -187,7 +187,7 @@ def add_address(request):
 
 @check_login
 def update_address(request):
-    loginUser = LoginUser.objects.get(request.session['user'])
+    loginUser = LoginUser.objects.filter(id=request.session['user']).first()
     data = json.loads(request.body)
     LoginUserAddress.objects.filter(loginUser=loginUser.id).filter(
         id=data.id).update(
