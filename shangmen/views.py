@@ -16,7 +16,7 @@ def check_login(fn):
             loginUser = LoginUser.objects.filter(openid=openid).first()
             if not loginUser:
                 return JsonResponse({'code': 401, 'msg': '用户未登录'})
-            request.session['user'] = loginUser
+            request.session['user'] = loginUser.id
             return fn(request)
         else:
             return JsonResponse({'code': 401, 'msg': '用户未登录'})
@@ -108,7 +108,7 @@ def update_current_user(request):
 
 @check_login
 def current_user(request):
-    loginUser = request.session['user']
+    loginUser = LoginUser.objects.get(request.session['user'])
     ret = {
         "openid": loginUser.openid,
         "nickName": loginUser.nickName,
@@ -119,7 +119,7 @@ def current_user(request):
 
 @check_login
 def address_list(request):
-    loginUser = request.session['user']
+    loginUser = LoginUser.objects.get(request.session['user'])
     addresList = LoginUserAddress.objects.filter(loginUser=loginUser.id)
     ret = []
     for addres in addresList:
@@ -135,11 +135,9 @@ def address_list(request):
 
 @check_login
 def default_address(request):
-    user = request.session['user']
+    loginUser = LoginUser.objects.get(request.session['user'])
     addres = LoginUserAddress.objects.filter(
-        loginUser=user.id).filter(isDefault=True).first()
-    print(addres)
-    print(user)
+        loginUser=loginUser.id).filter(isDefault=True).first()
     if addres:
         ret = {
             "id": addres.id,
@@ -150,14 +148,12 @@ def default_address(request):
         }
     else:
         ret = {}
-    print(ret)
-    print("------")
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
 
 
 @check_login
 def set_default_address(request):
-    loginUser = request.session['user']
+    loginUser = LoginUser.objects.get(request.session['user'])
     addressId = request.GET.get("addressId", "")
     LoginUserAddress.objects.filter(
         loginUser=loginUser.id).update(isDefault=False)
@@ -168,7 +164,7 @@ def set_default_address(request):
 
 @check_login
 def add_address(request):
-    loginUser = request.session['user']
+    loginUser = LoginUser.objects.get(request.session['user'])
     data = json.loads(request.body)
     LoginUserAddress.objects.filter(
         loginUser=loginUser.id).update(isDefault=False)
@@ -191,7 +187,7 @@ def add_address(request):
 
 @check_login
 def update_address(request):
-    loginUser = request.session['user']
+    loginUser = LoginUser.objects.get(request.session['user'])
     data = json.loads(request.body)
     LoginUserAddress.objects.filter(loginUser=loginUser.id).filter(
         id=data.id).update(
