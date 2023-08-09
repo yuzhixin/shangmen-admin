@@ -137,7 +137,7 @@ def address_list(request):
 def default_address(request):
     loginUser = request.session['user']
     addres = LoginUserAddress.objects.filter(
-        loginUser=loginUser).filter(isDefault=True).first()
+        loginUser=loginUser.id).filter(isDefault=True).first()
     if addres:
         ret = {
             "id": addres.id,
