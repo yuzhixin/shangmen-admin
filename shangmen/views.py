@@ -2,7 +2,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from shangmen_admin.settings import MEDIA_HOSTS, AppID, AppSecret
 from django.http import JsonResponse, HttpResponse
-from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAddress
+from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAddress, Order
 import requests
 import json
 
@@ -201,3 +201,21 @@ def update_address(request):
         address=data.address
     )
     return JsonResponse({'code': 0, 'ret': {}, 'msg': ''})
+
+
+@csrf_exempt
+@check_login
+def create_order(request):
+    loginUser = LoginUser.objects.filter(id=request.session['user']).first()
+    data = json.loads(request.body)
+    address_id = data['address_id']
+    product_id = data['product_id']
+    shangmenInfo = data['shangmenInfo']
+    appointTime = data['appointTime']
+    product = Shangpin.objects.filter(id=product_id).first()
+    address = LoginUserAddress.objects.filter(id=address_id).first()
+    appoint_time = appointTime.split('(')[0] + " " + appointTime.split(')')[1]
+    order = Order(loginUser=loginUser.id, shangpin=product.id, title=product.title, real_price=product.real_price, fuwu_name=address.name, fuwu_mobile=address.mobile,
+                  fuwu_address=address.address, yuyue_name=shangmenInfo['name'], yuyue_mobile=shangmenInfo['phone'], yuyue_note=shangmenInfo.get('note', ''), appoint_time=appoint_time)
+    order.save()
+    return JsonResponse({'code': 0, 'ret': {'order': order.id}, 'msg': ''})

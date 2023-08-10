@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAddress
+from .models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAddress, Order
 
 
 class LoginUserAddressAdmin(admin.ModelAdmin):
@@ -54,8 +54,22 @@ class LoginUserAdmin(admin.ModelAdmin):
     list_display = ('openid', 'nickName', 'avatarUrl')
 
 
+class OrderAdmin(admin.ModelAdmin):
+
+    # 列表页，列表顶部显示的字段名称
+    list_display = ('id', 'loginUser', 'title',
+                    'real_price', 'isPay')
+
+    # 列表页出现搜索框，参数是搜索的域
+    search_fields = ('title', 'loginUser', 'isPay')
+
+    # 自然是排序所用了，减号代表降序排列
+    ordering = ('-id',)
+
+
 admin.site.register(HomeBar, HomeBarAdmin)
 admin.site.register(ShopInfo, ShopInfoAdmin)
 admin.site.register(Shangpin, ShangpinAdmin)
 admin.site.register(LoginUser, LoginUserAdmin)
 admin.site.register(LoginUserAddress, LoginUserAddressAdmin)
+admin.site.register(Order, OrderAdmin)

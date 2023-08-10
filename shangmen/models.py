@@ -83,3 +83,34 @@ class Shangpin(models.Model):
 
     def get_tag_name(self):
         return self.get_tag_display()
+
+
+class Order(models.Model):
+    PAY = [
+        (1, '已支付'),
+        (0, '未支付'),
+    ]
+
+    WC = [
+        (1, '已完成'),
+        (0, '未完成'),
+    ]
+
+    id = models.AutoField(primary_key=True)
+    loginUser = models.IntegerField(default=0, verbose_name="登录用户")
+    shangpin = models.IntegerField(default=0, verbose_name="商品")
+    title = models.CharField(max_length=128, verbose_name="标题")
+    real_price = models.DecimalField(
+        verbose_name="真实价格",  max_digits=5, decimal_places=2, blank=False, null=False)
+    isPay = models.IntegerField(default=0, choices=PAY)
+    isWanCheng = models.IntegerField(default=0, choices=WC)
+    fuwu_name = models.CharField(max_length=128, verbose_name="上门服务姓名")
+    fuwu_mobile = models.CharField(max_length=128, verbose_name="上门服务手机号")
+    fuwu_address = models.CharField(max_length=512, verbose_name="上门服务地址")
+    yuyue_name = models.CharField(max_length=128, verbose_name="预约人姓名")
+    yuyue_mobile = models.CharField(max_length=128, verbose_name="预约人手机号")
+    yuyue_note = models.CharField(max_length=512, verbose_name="预约备注")
+    appoint_time = models.CharField(max_length=128, verbose_name="上门时间")
+
+    class Meta:
+        verbose_name_plural = '订单详情'
