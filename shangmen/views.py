@@ -238,5 +238,7 @@ def order_list(request):
             "isWanCheng": order.isWanCheng,
             "appoint_time": order.appoint_time,
             "created_at": order.created_at,
+            "src": order.src,
+            "sumery": order.sumery,
         })
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})

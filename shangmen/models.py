@@ -112,6 +112,9 @@ class Order(models.Model):
     loginUser = models.IntegerField(default=0, verbose_name="登录用户")
     shangpin = models.IntegerField(default=0, verbose_name="商品")
     title = models.CharField(max_length=128, verbose_name="标题")
+    src = models.ImageField(verbose_name='头图',
+                            upload_to='image', max_length=200, default='')
+    sumery = RichTextField(verbose_name="商品介绍", default='')
     real_price = models.DecimalField(
         verbose_name="真实价格",  max_digits=5, decimal_places=2, blank=False, null=False)
     isPay = models.IntegerField(default=0, choices=PAY)
