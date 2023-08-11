@@ -2,7 +2,7 @@
 from shangmen_admin.settings import HOSTS
 from django.db import models
 from ckeditor.fields import RichTextField
-import time
+from datetime import datetime
 
 
 class LoginUser(models.Model):
@@ -11,8 +11,9 @@ class LoginUser(models.Model):
         max_length=128, default="", verbose_name="openid")
     nickName = models.CharField(max_length=128, default="", verbose_name="昵称")
     avatarUrl = models.CharField(max_length=512, default="", verbose_name="头像")
-    created_at = models.DateTimeField(auto_now_add=True, default=time.time())
-    updated_at = models.DateTimeField(auto_now=True, default=time.time())
+    created_at = models.DateTimeField(
+        auto_now_add=True, default=datetime.now())
+    updated_at = models.DateTimeField(auto_now=True, default=datetime.now())
 
     class Meta:
         indexes = [models.Index(fields=['openid'])]
@@ -26,8 +27,9 @@ class LoginUserAddress(models.Model):
     mobile = models.CharField(max_length=128, verbose_name="手机号")
     address = models.CharField(max_length=512, verbose_name="地址")
     isDefault = models.BooleanField(default=False, verbose_name="是否默认地址")
-    created_at = models.DateTimeField(auto_now_add=True, default=time.time())
-    updated_at = models.DateTimeField(auto_now=True, default=time.time())
+    created_at = models.DateTimeField(
+        auto_now_add=True, default=datetime.now())
+    updated_at = models.DateTimeField(auto_now=True, default=datetime.now())
 
     class Meta:
         verbose_name_plural = '用户地址'
@@ -54,8 +56,9 @@ class ShopInfo(models.Model):
     weixin = models.CharField(max_length=128, verbose_name="微信")
     address = models.CharField(max_length=256, verbose_name="地址")
     sumery = RichTextField(verbose_name="商店简介")
-    created_at = models.DateTimeField(auto_now_add=True, default=time.time())
-    updated_at = models.DateTimeField(auto_now=True, default=time.time())
+    created_at = models.DateTimeField(
+        auto_now_add=True, default=datetime.now())
+    updated_at = models.DateTimeField(auto_now=True, default=datetime.now())
 
     class Meta:
         verbose_name_plural = '店铺信息'
@@ -84,8 +87,9 @@ class Shangpin(models.Model):
     tag = models.CharField(max_length=128, verbose_name="标签", choices=TAG)
     sumery = RichTextField(verbose_name="商品介绍")
     isPublish = models.IntegerField(choices=PUBLISH)
-    created_at = models.DateTimeField(auto_now_add=True, default=time.time())
-    updated_at = models.DateTimeField(auto_now=True, default=time.time())
+    created_at = models.DateTimeField(
+        auto_now_add=True, default=datetime.now())
+    updated_at = models.DateTimeField(auto_now=True, default=datetime.now())
 
     class Meta:
         verbose_name_plural = '商品详情'
@@ -127,8 +131,9 @@ class Order(models.Model):
         max_length=512, verbose_name="预约备注", default="")
     appoint_time = models.CharField(
         max_length=128, verbose_name="上门时间", default="")
-    created_at = models.DateTimeField(auto_now_add=True, default=time.time())
-    updated_at = models.DateTimeField(auto_now=True, default=time.time())
+    created_at = models.DateTimeField(
+        auto_now_add=True, default=datetime.now())
+    updated_at = models.DateTimeField(auto_now=True, default=datetime.now())
 
     class Meta:
         verbose_name_plural = '订单详情'
