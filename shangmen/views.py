@@ -240,5 +240,6 @@ def order_list(request):
             "created_at": order.created_at,
             "src": order.src,
             "sumery": order.sumery,
+            "id": order.id,
         })
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
