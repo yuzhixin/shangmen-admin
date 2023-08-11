@@ -238,7 +238,7 @@ def order_list(request):
             "isWanCheng": order.isWanCheng,
             "appoint_time": order.appoint_time,
             "created_at": order.created_at,
-            "src": order.src,
+            "src": MEDIA_HOSTS + order.src.name,
             "sumery": order.sumery,
             "id": order.id,
         })
