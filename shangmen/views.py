@@ -219,7 +219,7 @@ def create_order(request):
         loginUser=loginUser.id,
         shangpin=product.id,
         title=product.title,
-        src=MEDIA_HOSTS + product.src.name,
+        src=product.src.name,
         sumery=product.sumery,
         real_price=product.real_price,
         fuwu_name=address.name,
