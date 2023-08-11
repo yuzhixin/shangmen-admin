@@ -215,8 +215,20 @@ def create_order(request):
     product = Shangpin.objects.filter(id=product_id).first()
     address = LoginUserAddress.objects.filter(id=address_id).first()
     appoint_time = appointTime.split('(')[0] + " " + appointTime.split(')')[1]
-    order = Order(loginUser=loginUser.id, shangpin=product.id, title=product.title, real_price=product.real_price, fuwu_name=address.name, fuwu_mobile=address.mobile,
-                  fuwu_address=address.address, yuyue_name=shangmenInfo['name'], yuyue_mobile=shangmenInfo['phone'], yuyue_note=shangmenInfo.get('note', ''), appoint_time=appoint_time)
+    order = Order(
+        loginUser=loginUser.id,
+        shangpin=product.id,
+        title=product.title,
+        src=MEDIA_HOSTS + product.src.name,
+        sumery=product.sumery,
+        real_price=product.real_price,
+        fuwu_name=address.name,
+        fuwu_mobile=address.mobile,
+        fuwu_address=address.address,
+        yuyue_name=shangmenInfo['name'],
+        yuyue_mobile=shangmenInfo['phone'],
+        yuyue_note=shangmenInfo.get('note', ''),
+        appoint_time=appoint_time)
     order.save()
     return JsonResponse({'code': 0, 'ret': {'order': order.id}, 'msg': ''})
 
