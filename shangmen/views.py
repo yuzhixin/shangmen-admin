@@ -219,3 +219,24 @@ def create_order(request):
                   fuwu_address=address.address, yuyue_name=shangmenInfo['name'], yuyue_mobile=shangmenInfo['phone'], yuyue_note=shangmenInfo.get('note', ''), appoint_time=appoint_time)
     order.save()
     return JsonResponse({'code': 0, 'ret': {'order': order.id}, 'msg': ''})
+
+
+@check_login
+def order_list(request):
+    isWanCheng = request.GET.get("isWanCheng")
+    loginUser = LoginUser.objects.filter(id=request.session['user']).first()
+    orders = Order.objects.filter(loginUser=loginUser.id).order_by('-id')
+    if isWanCheng:
+        orders = orders.filter(isWanCheng=1)
+    ret = []
+    for order in orders:
+        ret.append({
+            "shangpin": order.shangpin,
+            "title": order.title,
+            "real_price": order.real_price,
+            "isPay": order.isPay,
+            "isWanCheng": order.isWanCheng,
+            "appoint_time": order.appoint_time,
+            "created_at": order.created_at,
+        })
+    return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
