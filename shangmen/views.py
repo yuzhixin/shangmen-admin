@@ -265,6 +265,6 @@ def notice_list(request):
         ret.append({
             "content": notice.content,
             "title": notice.title,
-            "created_at": notice.created_at,
+            "created_at": notice.created_at.date(),
         })
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
