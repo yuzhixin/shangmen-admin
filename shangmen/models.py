@@ -146,6 +146,9 @@ class Notice(models.Model):
         max_length=128, verbose_name="标题", default="")
     content = models.CharField(
         max_length=512, verbose_name="内容", default="")
+    created_at = models.DateTimeField(
+        auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name_plural = '通知'
