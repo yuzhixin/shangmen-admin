@@ -253,5 +253,6 @@ def order_list(request):
             "src": MEDIA_HOSTS + order.src,
             "sumery": order.sumery,
             "id": order.id,
+            "fuwu_address": order.fuwu_address,
         })
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
