@@ -2,7 +2,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from shangmen_admin.settings import MEDIA_HOSTS, AppID, AppSecret
 from django.http import JsonResponse, HttpResponse
-from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAddress, Order
+from shangmen.models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAddress, Order, Notice
 import requests
 import json
 
@@ -254,5 +254,16 @@ def order_list(request):
             "sumery": order.sumery,
             "id": order.id,
             "fuwu_address": order.fuwu_address,
+        })
+    return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})
+
+
+def notice_list(request):
+    notices = Notice.objects.all()
+    ret = []
+    for notice in notices:
+        ret.append({
+            "content": notice.content,
+            "title": notice.title,
         })
     return JsonResponse({'code': 0, 'ret': ret, 'msg': ''})

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAddress, Order
+from .models import HomeBar, ShopInfo, Shangpin, LoginUser, LoginUserAddress, Order, Notice
 
 
 class LoginUserAddressAdmin(admin.ModelAdmin):
@@ -7,6 +7,13 @@ class LoginUserAddressAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'mobile', 'address')
 
     search_fields = ('id', 'name', 'mobile', 'address')
+
+    ordering = ('-id',)
+
+
+class NoticeAdmin(admin.ModelAdmin):
+
+    list_display = ('id', 'title', 'content')
 
     ordering = ('-id',)
 
@@ -73,3 +80,4 @@ admin.site.register(Shangpin, ShangpinAdmin)
 admin.site.register(LoginUser, LoginUserAdmin)
 admin.site.register(LoginUserAddress, LoginUserAddressAdmin)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(Notice, NoticeAdmin)

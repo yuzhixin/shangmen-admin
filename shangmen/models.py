@@ -138,3 +138,14 @@ class Order(models.Model):
 
     class Meta:
         verbose_name_plural = '订单详情'
+
+
+class Notice(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(
+        max_length=128, verbose_name="标题", default="")
+    content = models.CharField(
+        max_length=512, verbose_name="内容", default="")
+
+    class Meta:
+        verbose_name_plural = '通知'
