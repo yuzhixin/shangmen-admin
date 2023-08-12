@@ -235,11 +235,11 @@ def create_order(request):
 
 @check_login
 def order_list(request):
-    isWanCheng = request.GET.get("isWanCheng")
+    isPay = request.GET.get("isPay")
     loginUser = LoginUser.objects.filter(id=request.session['user']).first()
     orders = Order.objects.filter(loginUser=loginUser.id).order_by('-id')
-    if isWanCheng:
-        orders = orders.filter(isWanCheng=1)
+    if isPay:
+        orders = orders.filter(isPay=1)
     ret = []
     for order in orders:
         ret.append({
